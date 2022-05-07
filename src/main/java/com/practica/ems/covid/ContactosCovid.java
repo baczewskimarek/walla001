@@ -109,14 +109,14 @@ public class ContactosCovid {
 			if (datos[0].equals("PERSONA")) {
 				if (datos.length == Constantes.MAX_DATOS_PERSONA) {
 					this.poblacion.addPersona(this.crearPersona(datos));
-				} else throw new EmsInvalidNumberOfDataException("El número de datos para PERSONA es menor de 8");
+				} else throw new EmsInvalidNumberOfDataException("El nÃºmero de datos para PERSONA es menor de 8");
 			}
 			else if (datos[0].equals("LOCALIZACION")) {
 				     if (datos.length == Constantes.MAX_DATOS_LOCALIZACION) {
 				    	 PosicionPersona pp = this.crearPosicionPersona(datos);
 					     this.localizacion.addLocalizacion(pp);
 					     this.listaContactos.insertarNodoTemporal(pp);    	 
-				     } else throw new EmsInvalidNumberOfDataException("El número de datos para LOCALIZACION es menor de 6");    
+				     } else throw new EmsInvalidNumberOfDataException("El nÃºmero de datos para LOCALIZACION es menor de 6");    
 			     } else throw new EmsInvalidTypeException();
 		}
 	}
@@ -185,7 +185,6 @@ public class ContactosCovid {
 		String cadenas[] = data.split("\\;");
 		return cadenas;
 	}
-
 	
 	private Persona crearPersona(String[] data) {
 		Persona persona = new Persona();
@@ -195,40 +194,16 @@ public class ContactosCovid {
 		persona.setEmail(data[4]);
 		persona.setDireccion(data[5]);
 		persona.setCp(data[6]);
-		persona.setFechaNacimiento(parsearFecha(data[7]));
+		persona.setFechaNacimiento(new FechaHora(data[7]));
 		return persona;
 	}
-
 	
 	private PosicionPersona crearPosicionPersona(String[] data) {
 		PosicionPersona posicionPersona = new PosicionPersona();
 		posicionPersona.setDocumento(data[1]);
-		posicionPersona.setFechaPosicion(parsearFecha(data[2], data[3]));
+		posicionPersona.setFechaPosicion(new FechaHora(data[2], data[3]));
 		posicionPersona.setCoordenada(new Coordenada(Float.parseFloat(data[4]), Float.parseFloat(data[5])));
 		return posicionPersona;
 	}
 	
-	private FechaHora parsearFecha (String fecha) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, 0, 0);
-		return fechaHora;
-	}
-	
-	private FechaHora parsearFecha (String fecha, String hora) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		int minuto, segundo;
-		valores = hora.split("\\:");
-		minuto = Integer.parseInt(valores[0]);
-		segundo = Integer.parseInt(valores[1]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, minuto, segundo);
-		return fechaHora;
-	}
 }
