@@ -16,6 +16,7 @@ import com.practica.excecption.EmsLocalizationNotFoundException;
 import com.practica.excecption.EmsPersonNotFoundException;
 import com.practica.genericas.Constantes;
 import com.practica.genericas.Coordenada;
+import com.practica.genericas.DataFile;
 import com.practica.genericas.FechaHora;
 import com.practica.genericas.Persona;
 import com.practica.genericas.PosicionPersona;
@@ -69,35 +70,29 @@ public class ContactosCovid {
 	}
 
 	public void loadDataFile(String fichero, boolean reset) {
-		File archivo = null;
-		FileReader fr = null;
-		BufferedReader br = null;
-		String datas[] = null, data = null;
-		loadDataFile(fichero, reset, archivo, fr, br, datas, data);
+		
+		DataFile datafile = new DataFile(fichero);
+		
+		datafile.setData(fichero);
+		
+		loadDataFile(datafile, reset);
 		
 	}
 
 	@SuppressWarnings("resource")
-	public void loadDataFile(String fichero, boolean reset, File archivo, FileReader fr, BufferedReader br, String datas[], String data ) {
-		try {
-			archivo = new File(fichero);
-			fr = new FileReader(archivo);
-			br = new BufferedReader(fr);
-			if (reset) {this.reseter();}
-			while ((data = br.readLine()) != null) {
-				this.dataLoader(datas, data);
+	public void loadDataFile(DataFile datafile, boolean reset) {
+		
+		String data = null;
+		if (reset) {this.reseter();}
+		
+		try {	
+			while ((data = datafile.getBr().readLine()) != null) {
+				this.dataLoader(datafile.getDatas(), data);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (null != fr) {
-					fr.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			
 		}
 	}
 	
