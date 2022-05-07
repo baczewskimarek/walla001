@@ -9,7 +9,6 @@ public class Persona {
 
 	}
 
-//	public Persona(String nombre, String apellidos, String documento, String email, String direccion, FechaHora fechaNacimiento) {
 	public Persona(String datas[], FechaHora fechaNacimiento) {
 		super();
 		this.nombre = datas[0];
